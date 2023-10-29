@@ -8,6 +8,8 @@ import Blog from "../Pages/Blog/Blog";
 import SignUp from "../Pages/register/SignUp";
 import Login from "../Pages/register/Login";
 import Checkout from "../Pages/Checkout/Checkout";
+import MyBooking from "../Pages/MyBooking/MyBooking";
+import PrivateRoute from "./PrivateRoute";
 
 
 const router = createBrowserRouter([
@@ -31,10 +33,7 @@ const router = createBrowserRouter([
             path:'/blog',
             element: <Blog></Blog>
         },
-        {
-            path:'/contact',
-            element: <Contact></Contact>
-        },
+       
         {
             path:'/login',
             element: <Login></Login>
@@ -45,8 +44,12 @@ const router = createBrowserRouter([
         },
         {
             path:'/checkout/:id',
-            element: <Checkout></Checkout>,
+            element: <PrivateRoute><Checkout></Checkout></PrivateRoute>,
             loader: ({params})=>fetch(`http://localhost:5000/services/${params.id}`)
+        },
+        {
+            path:'/myBooking',
+            element: <PrivateRoute><MyBooking></MyBooking></PrivateRoute>
         },
       ]
     },

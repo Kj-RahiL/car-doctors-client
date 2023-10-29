@@ -1,7 +1,20 @@
 import { Link, NavLink } from "react-router-dom";
 import logo from "../../assets/logo.svg"
+import { useContext } from "react";
+import { AuthContext } from "../../Provider/AuthProvider";
 
 const Navbar = () => {
+    const {user, logOut} = useContext(AuthContext)
+
+    const handleLogOut = ()=>{
+        logOut()
+        .then(()=>{
+            alert('sign out successfully')
+        })
+        .catch(error=>{
+            console.error(error);
+        })
+    }
     const link = <>
         <li><NavLink to="/"
             style={({ isActive }) => {
@@ -47,7 +60,10 @@ const Navbar = () => {
                 };
             }}>Blog</NavLink></li>
 
-        <li><NavLink to="/contact"
+        {
+            user?.email ? <>
+              
+              <li><NavLink to="/myBooking"
             style={({ isActive }) => {
                 return {
                     color: isActive ? '#ff3837' : '',
@@ -55,7 +71,32 @@ const Navbar = () => {
                     fontWeight: isActive ? "bold" : "",
                     background: isActive ? "none" : '',
                 };
-            }}>Contact</NavLink></li>
+            }}>My Booking</NavLink></li>
+            
+            <li><NavLink 
+            to="/" 
+            style={({ isActive }) => {
+                return {
+                    color: isActive ? '#ff3837' : '',
+                    borderBottom: isActive ? "2px solid #ff3837" : "black",
+                    fontWeight: isActive ? "bold" : "",
+                    background: isActive ? "none" : '',
+                };
+            }}
+            onClick={handleLogOut}>Log Out</NavLink></li>
+          
+            </>
+            
+            : <li><NavLink to="/login"
+            style={({ isActive }) => {
+                return {
+                    color: isActive ? '#ff3837' : '',
+                    borderBottom: isActive ? "2px solid #ff3837" : "black",
+                    fontWeight: isActive ? "bold" : "",
+                    background: isActive ? "none" : '',
+                };
+            }}>Log In</NavLink></li>
+        }
 
     </>
     return (
